@@ -29,9 +29,7 @@ void clear_screen() {
 }
 
 void wait_any_key() {
-	int c;
-	char charRead[2];
-	fgets(charRead, sizeof(charRead), stdin);
+	while ( getchar() != '\n' );
 }
 
 static bool bottomField[2] = {false};
@@ -377,17 +375,13 @@ int main(int argc, char **argv) {
 		printf("- Does not support screen color filters\n");
 
 		selector = 0;		
-
-		while (1) {
-			scanf("%d\n", &selector);
-			
-
-			if (selector > 0 && selector < 4){
-				rvidHeader.bmpMode = selector - 1;
-				selector = 0;
-				break;
-			}
+		
+		while (selector < 1 || selector > 3) {
+			scanf("%d", &selector);
 		}
+
+		rvidHeader.bmpMode = selector - 1;
+		selector = 0;
 		reviewInformation = true;
 		bmpModeEntered = true;
 	}
@@ -419,7 +413,7 @@ int main(int argc, char **argv) {
 		selector = 0;
 
 		while (1) {
-			scanf("%d\n", &selector);
+			scanf("%d", &selector);
 
 			if (selector == 1) {
 				rvidHeader.fps = 12;
@@ -545,7 +539,7 @@ int main(int argc, char **argv) {
 		
 		selector = 0;		
 
-		scanf("%d\n", &selector);
+		scanf("%d", &selector);
 		rvidHeader.interlaced = !(selector == 0);
 
 	} */
@@ -562,7 +556,7 @@ int main(int argc, char **argv) {
 		printf("0: No\n");
 
 		selector = 1;
-		scanf("%d\n", &selector);
+		scanf("%d", &selector);
 		framesCompressed = !(selector == 0);
 
 		
@@ -608,7 +602,7 @@ int main(int argc, char **argv) {
 			selector = 5;
 
 			while (1) {
-				scanf("%d\n", &selector);
+				scanf("%d", &selector);
 
 				/* if (selector == 0) {
 					rvidHeader.hasSound = 0;
@@ -647,7 +641,7 @@ int main(int argc, char **argv) {
 
 
 			while (1) {
-				scanf("%d\n", &selector);
+				scanf("%d", &selector);
 
 				if (selector == 1) {
 					rvidHeader.audioBitMode = 0;
@@ -732,7 +726,7 @@ int main(int argc, char **argv) {
 
 
 		selector = 1;
-		scanf("%d\n", &selector);
+		scanf("%d", &selector);
 		if (selector == 0) {
 			return 0;
 		}
@@ -829,7 +823,7 @@ int main(int argc, char **argv) {
 					unsigned width, height;
 					lodepng::decode(image, width, height, framePath);
 
-					if ((b == 0) && ((i % 500) == 0)) printf("\r%i/%i", i, foundFrames);
+					if ((b == 0) && ((i % 250) == 0)) printf("\r%i/%i", i, foundFrames);
 					fflush(stdout);
 
 					bool alternatePixel = !rvidHeader.interlaced && (i % 2);
